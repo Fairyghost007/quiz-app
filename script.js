@@ -57,22 +57,44 @@ function validateForm(event) {
 
 
 function displayScore() {
-    document.getElementById('score').innerText = "Votre score est: " + score;
+    let scoreDiv = document.getElementById('score');
+    if (!scoreDiv) {
+        scoreDiv = document.createElement('div');
+        scoreDiv.id = 'score';
+        scoreDiv.className = 'mt-4 text-xl font-semibold text-gray-800';
+        document.getElementById('container').appendChild(scoreDiv);
+    }
+    scoreDiv.innerText = "Votre score est: " + score;
+    scoreDiv.className = 'p-2 rounded text-center bg-white';
     document.querySelector('form').style.display = 'none';
+
+    const existingButton = document.getElementById('restartButton');
+    if (existingButton) {
+        existingButton.remove();
+    }
 
     const restartButton = document.createElement('button');
     restartButton.textContent = 'Recommencer';
-    restartButton.className = '"bg-blue-100 text-white w-full px-4 py-2 rounded';
+    restartButton.className = 'bg-blue-500 text-white w-full px-4 py-2 rounded mt-4';
+    restartButton.id = 'restartButton';
     restartButton.onclick = restart;
 
-    const container = document.getElementById('container');
-    container.appendChild(restartButton);
+    document.getElementById('container').appendChild(restartButton);
 }
 
 function restart() {
     score = 0;
     questionNumber = 0;
-    // loadQuestion(); 
-    // document.getElementById('quizForm').style.display = 'block';
-    document.querySelector('button').remove(); 
+    loadQuestion();
+    document.querySelector('form').style.display = 'block';
+
+    const restartButton = document.getElementById('restartButton');
+    if (restartButton) {
+        restartButton.remove();
+    }
+
+    const scoreDiv = document.getElementById('score');
+    if (scoreDiv) {
+        scoreDiv.remove();
+    }
 }
